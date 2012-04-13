@@ -3,7 +3,12 @@
     width:100%;
     border: 1px solid #ddd;
 }
-#editor{
+#setup-editor{
     width:100%;
     height:500px;
 }
+#loop-editor{
+    width:100%;
+    height:500px;
+}
+

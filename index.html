@@ -89,14 +89,11 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane active" id="1">
-                    <div id="editor">Editor?</div>
-                    <script>
-                    window.onload = function() {
-                        var editor = ace.edit("editor");
-                    };
-                    </script>
+                    <div id="setup-editor">Setup editor?</div>
                 </div>
-                <div class="tab-pane" id="2"></div>
+                <div class="tab-pane" id="2">
+                    <div id="loop-editor">Loop editor?</div>
+                </div>
                 <div class="tab-pane" id="3"></div>
             </div>
         </div>
@@ -107,7 +104,6 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./assets/js/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="assets/js/bootstrap.js"></script>
     <script src="assets/js/bootstrap-tab.js"></script>
@@ -127,6 +123,8 @@
     <script src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script>
     <script src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script>
     <script src="viewport.js"></script>
+    <script src="assets/js/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="editor.js" type="text/javascript" charset="utf-8"></script>
 
   </body>
 </html>
