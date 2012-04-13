@@ -1,4 +1,4 @@
-.block img,canvas {
+.block img,object,canvas {
     height:auto;
     width:100%;
     border: 1px solid #ddd;

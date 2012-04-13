@@ -48,7 +48,7 @@
 
       <div class="row" id="blocks">
         <div class="span4">
-            <div class="block"> <img id="track" src="assets/tracks/simple_path.svg" /> </div>
+            <div class="block"> <img id="track" src="assets/tracks/simple_path.svg" /></div>
         </div>
         <div class="span4">
             <div class="block"> <canvas id="viewport" width="400" height="400" ></canvas> </div>
@@ -61,15 +61,15 @@
       <div class="row" id="controls">
         <div class="span4">
             <form class="well form-inline">
-                <button class="btn" type="submit">Control Manually</button>
-                <button class="btn btn-danger pull-right" type="submit">Reset</button>
+                <button class="btn" type="button">Control Manually</button>
+                <button class="btn btn-danger pull-right" type="button">Reset</button>
             </form>
         </div>
         <div class="span4">
             <form class="well form-inline">
                 <label for="x-coord">X:</label> <input id="x-coord" type="text" class="input-small" />
                 <label for="y-coord">Y:</label> <input id="y-coord" type="text" class="input-small" />
-                <button class="btn pull-right" type="submit">Set X/Y</button>
+                <button id="set-xy" class="btn pull-right" type="button" >Set X/Y</button>
             </form>
         </div>
       </div>
