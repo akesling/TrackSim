@@ -3,3 +3,7 @@
     width:100%;
     border: 1px solid #ddd;
 }
+#editor{
+    width:100%;
+    height:500px;
+}
