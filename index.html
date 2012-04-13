@@ -9,9 +9,7 @@
 
     <!-- Le styles -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
-    <link href="assets/css/extra.css" rel="stylesheet">
-    <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script>
-    <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script>
+    <link href="extra.css" rel="stylesheet">
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -63,7 +61,7 @@
       <div class="row" id="controls">
         <div class="span4">
             <form class="well form-inline">
-                <button class="btn btn-primary" type="submit">Control Manually</button>
+                <button class="btn" type="submit">Control Manually</button>
                 <button class="btn btn-danger pull-right" type="submit">Reset</button>
             </form>
         </div>
@@ -71,7 +69,29 @@
             <form class="well form-inline">
                 <label for="x-coord">X:</label> <input id="x-coord" type="text" class="input-small" />
                 <label for="y-coord">Y:</label> <input id="y-coord" type="text" class="input-small" />
+                <button class="btn pull-right" type="submit">Set X/Y</button>
             </form>
+        </div>
+      </div>
+
+      <div class="row" id="core">
+        <div class="tabbable span12">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#1" data-toggle="tab">Setup</a>
+                </li>
+                <li>
+                    <a href="#2" data-toggle="tab">Loop</a>
+                </li>
+                <li>
+                    <a href="#3" data-toggle="tab">Help</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="1"></div>
+                <div class="tab-pane" id="2"></div>
+                <div class="tab-pane" id="3"></div>
+            </div>
         </div>
       </div>
 
@@ -80,19 +100,25 @@
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="assets/js/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.js"></script>
+    <script src="assets/js/bootstrap-tab.js"></script>
+<!--    <script src="assets/js/jquery.js"></script>
     <script src="assets/js/bootstrap-transition.js"></script>
     <script src="assets/js/bootstrap-alert.js"></script>
     <script src="assets/js/bootstrap-modal.js"></script>
     <script src="assets/js/bootstrap-dropdown.js"></script>
     <script src="assets/js/bootstrap-scrollspy.js"></script>
-    <script src="assets/js/bootstrap-tab.js"></script>
     <script src="assets/js/bootstrap-tooltip.js"></script>
     <script src="assets/js/bootstrap-popover.js"></script>
     <script src="assets/js/bootstrap-button.js"></script>
     <script src="assets/js/bootstrap-collapse.js"></script>
     <script src="assets/js/bootstrap-carousel.js"></script>
     <script src="assets/js/bootstrap-typeahead.js"></script>
+-->
+    <script src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script>
+    <script src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script>
+    <script src="viewport.js"></script>
 
   </body>
 </html>

@@ -1,0 +1,5 @@
+.block img,canvas {
+    height:auto;
+    width:100%;
+    border: 1px solid #ddd;
+}
