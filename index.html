@@ -61,15 +61,16 @@
       <div class="row" id="controls">
         <div class="span4">
             <form class="well form-inline">
-                <button class="btn" type="button">Control Manually</button>
-                <button class="btn btn-danger pull-right" type="button">Reset</button>
+                <label for="x-coord">Iterations:</label> <input id="num-ticks" type="text" class="input-small" value="300"/>
+                <button id="run" class="btn btn-success" type="button">Run</button>
+                <button id="reset" class="btn btn-danger pull-right" type="button">Reset</button>
             </form>
         </div>
         <div class="span4">
             <form class="well form-inline">
                 <label for="x-coord">X:</label> <input id="x-coord" type="text" class="input-small" />
                 <label for="y-coord">Y:</label> <input id="y-coord" type="text" class="input-small" />
-                <button id="set-xy" class="btn pull-right" type="button" >Set X/Y</button>
+                <button id="set-xy" class="btn btn-primary pull-right" type="button" >Set X/Y</button>
             </form>
         </div>
       </div>

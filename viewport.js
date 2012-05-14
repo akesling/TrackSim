@@ -12,6 +12,13 @@ $(document).ready(function () {
         draw_viewport(car.x,car.y,car.width,car.width);
     });
 
+    $("#reset").click(function () {
+        var viewport = $("#viewport")[0].getContext('2d');
+        car.x = $("#x-coord").val();
+        car.y = $("#y-coord").val();
+        draw_viewport(91.3,91.3,car.width,car.width);
+    });
+
     $("#x-coord").keyup(function(event) {
         if ( event.which == 37 ) { // Key left
             car.turn(-1);
