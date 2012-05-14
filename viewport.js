@@ -2,10 +2,10 @@
 /** Viewport Handling *********************************************************/
 /******************************************************************************/
 
-ds = 100
+ds = 2
 
 $(document).ready(function () {
-    draw_viewport(0,0,ds,ds);
+    draw_viewport(91.3,91.3,ds,ds);
 });
 
 $("#set-xy").click(function () {
@@ -23,6 +23,10 @@ function draw_viewport(x, y, width, height) {
     if (!y) {
         y = 0;
     }
+
+    $("#x-coord").val(x);
+    $("#y-coord").val(y);
+
     var svg_src = '<svg \
    xmlns:dc="http://purl.org/dc/elements/1.1/" \
    xmlns:cc="http://creativecommons.org/ns#" \
@@ -68,36 +72,39 @@ function draw_viewport(x, y, width, height) {
 
 var car = {};
 car.sensors = [
-    {   x:0,
-        y:0,
-        width:500,
+    {   x:200,
+        y:200,
+        width:10,
         data:0},
 
-    {   x:300,
-        y:300,
+    {   x:350,
+        y:200,
         width:10,
         data:0}
     ];
 
 car.sensor_func = function(context, sensor) {
     var pixels = context.getImageData(sensor.x, sensor.y,
-        sensor.x+sensor.width, sensor.y+sensor.width).data;
+        sensor.width, sensor.width).data;
 
     var acc = 0;
     for (var i=0; i<pixels.length; i+=4) {
-        var lum = 0.333*pixels[i] + 0.333*pixels[i+1] +
-            0.333*pixels[i+2] + pixels[i+3];
-        acc += (lum/255) >= 0.3; //add 1 if pixel dark enough
+        var lum = pixels[i+3];
+        acc += lum; //add 1 if pixel dark enough
     }
+    alert(acc/(255*(sensor.width*sensor.width)));
 
-    return (acc/(sensor.width*sensor.width)) > 0;
+    return (acc/(255*(sensor.width*sensor.width))) > 0.5;
 }
 
 car.get_sensors = function() {
     var viewport = $("#viewport")[0].getContext('2d');
+    viewport.fillStyle = "green";
+
     for (var i=car.sensors.length-1; i>=0; i--) {
         var s = car.sensors[i];
         s.data = this.sensor_func(viewport, s);
+        viewport.fillRect(s.x, s.y, s.width, s.width);
     }
 
     return car.sensors;
