@@ -2,19 +2,32 @@
 /** Viewport Handling *********************************************************/
 /******************************************************************************/
 
-ds = 2
 
 $(document).ready(function () {
-    draw_viewport(91.3,91.3,ds,ds);
+    draw_viewport(car.x,car.y,car.width,car.width);
+
+    $("#set-xy").click(function () {
+        var viewport = $("#viewport")[0].getContext('2d');
+        car.x = $("#x-coord").val();
+        car.y = $("#y-coord").val();
+        draw_viewport(car.x,car.y,car.width,car.width);
+    });
+
+    $("#x-coord").keyup(function(event) {
+        if ( event.which == 37 ) { // Key left
+            car.heading = (car.heading + 359) % 360;
+        } else if ( event.which == 39 ) { // Key right
+            car.heading = (car.heading + 361) % 360;
+        } else if ( event.which == 38 ) { // Key up
+            car.move(1);
+            tick();
+        } else if ( event.which == 40 ) { // Key down
+            car.move(-1);
+            tick();
+        }
+    });
 });
 
-$("#set-xy").click(function () {
-    var viewport = $("#viewport")[0].getContext('2d');
-    viewport.clearRect(0,0,500,500);
-    var x = $("#x-coord").val();
-    var y = $("#y-coord").val();
-    draw_viewport(x,y,ds,ds);
-});
 
 function draw_viewport(x, y, width, height) {
     if (!x) {
@@ -62,6 +75,8 @@ function draw_viewport(x, y, width, height) {
 </svg>';
     var track = $("#track")[0];
     var viewport = document.getElementById('viewport');
+
+    viewport.getContext('2d').clearRect(0,0,600,600);
     canvg(viewport, svg_src);
     //viewport.drawImage(track,x,y,ds,ds,0,0,500,500);
 }
@@ -70,7 +85,20 @@ function draw_viewport(x, y, width, height) {
 /** Car object framework ******************************************************/
 /******************************************************************************/
 
-var car = {};
+function tick() {
+    draw_viewport(car.x,car.y,car.width,car.width);
+    car.get_sensors();
+    car.draw(viewport.getContext('2d'));
+}
+
+var car = {
+    heading:0, // Degrees from north clockwise
+    speed:0.4, // Portion of "car" moved per tick
+    x:91.3,
+    y:91.3,
+    width:2 // Width as a pixel size from original image (/500)
+}
+
 car.sensors = [
     {   x:200,
         y:200,
@@ -81,7 +109,23 @@ car.sensors = [
         y:200,
         width:10,
         data:0}
-    ];
+];
+
+car.draw = function(context) {
+    context.fillStyle = "green";
+    for(var i=0; i<car.sensors.length; i++) {
+        var s = car.sensors[i];
+        context.fillRect(s.x, s.y, s.width, s.width);
+    }
+}
+
+car.move = function(direction) {
+    if(direction > 0) {
+        car.y -= car.width*car.speed;
+    } else {
+        car.y += car.width*car.speed;
+    }
+}
 
 car.sensor_func = function(context, sensor) {
     var pixels = context.getImageData(sensor.x, sensor.y,
@@ -99,12 +143,10 @@ car.sensor_func = function(context, sensor) {
 
 car.get_sensors = function() {
     var viewport = $("#viewport")[0].getContext('2d');
-    viewport.fillStyle = "green";
 
     for (var i=car.sensors.length-1; i>=0; i--) {
         var s = car.sensors[i];
         s.data = this.sensor_func(viewport, s);
-        viewport.fillRect(s.x, s.y, s.width, s.width);
     }
 
     return car.sensors;
