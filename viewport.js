@@ -99,20 +99,23 @@ var car = {
 }
 
 car.sensors = [
-    {   pos:0.5, // Portion of car width
+    {   pos:0, // Portion of car width
         width:10,
         data:0},
 
-    {   pos:0.75, // Portion of car width
+    {   pos:0.6, // Portion of car width
         width:10,
         data:0}
 ];
 
 car.sensor_pos = function(sensor) {
-    mag = sensor.pos*400;
-    x_pos = mag*Math.cos((Math.PI/180)*car.heading);
-    y_pos = mag*Math.sin((Math.PI/180)*car.heading);
-    return {x:x_pos, y:y_pos};
+    var bounds = 0.5*400
+    var mag = sensor.pos*bounds;
+    var x_offset = bounds;//bounds*Math.cos((Math.PI/180)*car.heading);
+    var y_offset = bounds;//bounds*Math.sin((Math.PI/180)*car.heading);
+    var x_pos = mag*Math.cos((Math.PI/180)*car.heading);
+    var y_pos = mag*Math.sin((Math.PI/180)*car.heading);
+    return {x:x_pos+x_offset, y:y_pos+y_offset};
 }
 
 car.draw = function(context) {
