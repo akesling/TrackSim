@@ -2,7 +2,6 @@
 /** Viewport Handling *********************************************************/
 /******************************************************************************/
 
-
 $(document).ready(function () {
     draw_viewport(car.x,car.y,car.width,car.width);
 
@@ -15,9 +14,9 @@ $(document).ready(function () {
 
     $("#x-coord").keyup(function(event) {
         if ( event.which == 37 ) { // Key left
-            car.heading = (car.heading + 359) % 360;
+            car.turn(-1);
         } else if ( event.which == 39 ) { // Key right
-            car.heading = (car.heading + 361) % 360;
+            car.turn(1);
         } else if ( event.which == 38 ) { // Key up
             car.move(1);
             tick();
@@ -87,12 +86,12 @@ function draw_viewport(x, y, width, height) {
 
 function tick() {
     draw_viewport(car.x,car.y,car.width,car.width);
-    car.get_sensors();
+    car.set_sensors();
     car.draw(viewport.getContext('2d'));
 }
 
 var car = {
-    heading:0, // Degrees from north clockwise
+    heading:0, // Degrees from north counter-clockwise
     speed:0.4, // Portion of "car" moved per tick
     x:91.3,
     y:91.3,
@@ -100,35 +99,55 @@ var car = {
 }
 
 car.sensors = [
-    {   x:200,
-        y:200,
+    {   pos:0.5, // Portion of car width
         width:10,
         data:0},
 
-    {   x:350,
-        y:200,
+    {   pos:0.75, // Portion of car width
         width:10,
         data:0}
 ];
+
+car.sensor_pos = function(sensor) {
+    mag = sensor.pos*400;
+    x_pos = mag*Math.cos((Math.PI/180)*car.heading);
+    y_pos = mag*Math.sin((Math.PI/180)*car.heading);
+    return {x:x_pos, y:y_pos};
+}
 
 car.draw = function(context) {
     context.fillStyle = "green";
     for(var i=0; i<car.sensors.length; i++) {
         var s = car.sensors[i];
-        context.fillRect(s.x, s.y, s.width, s.width);
+        pos = car.sensor_pos(s);
+        context.fillRect(pos.x, pos.y, s.width, s.width);
+    }
+}
+
+car.turn = function(degrees) {
+    if(degrees <= 0) {
+        car.heading = (car.heading+degrees)%360;
+    } else {
+        car.heading = (car.heading+360+degrees)%360;
     }
 }
 
 car.move = function(direction) {
-    if(direction > 0) {
-        car.y -= car.width*car.speed;
+    var mag = car.width*car.speed;
+
+    if (direction > 0) {
+        var dir = -1;
     } else {
-        car.y += car.width*car.speed;
+        var dir = 1;
     }
+
+    car.x += mag*dir*Math.sin((Math.PI/180)*(360-car.heading));
+    car.y += mag*dir*Math.cos((Math.PI/180)*(360-car.heading));
 }
 
 car.sensor_func = function(context, sensor) {
-    var pixels = context.getImageData(sensor.x, sensor.y,
+    var pos = car.sensor_pos(sensor);
+    var pixels = context.getImageData(pos.x, pos.y,
         sensor.width, sensor.width).data;
 
     var acc = 0;
@@ -136,18 +155,19 @@ car.sensor_func = function(context, sensor) {
         var lum = pixels[i+3];
         acc += lum; //add 1 if pixel dark enough
     }
-    alert(acc/(255*(sensor.width*sensor.width)));
 
     return (acc/(255*(sensor.width*sensor.width))) > 0.5;
 }
 
-car.get_sensors = function() {
+car.set_sensors = function() {
     var viewport = $("#viewport")[0].getContext('2d');
 
     for (var i=car.sensors.length-1; i>=0; i--) {
         var s = car.sensors[i];
         s.data = this.sensor_func(viewport, s);
     }
+}
 
+car.get_sensors = function() {
     return car.sensors;
 }
